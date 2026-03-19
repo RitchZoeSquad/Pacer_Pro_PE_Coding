@@ -1,0 +1,22 @@
+// Sumo Logic Query to detect high latency on /api/data endpoint
+// This query identifies when response times exceed 3 seconds
+
+// 1. Filter logs for the specific endpoint and response time threshold
+"/api/data" and response_time > 3000
+// Note: Assuming response_time is in milliseconds. Adjust to > 3 if in seconds.
+
+// 2. Aggregate results in a 10-minute time window
+| timeslice 10m
+| count as high_latency_entries by _timeslice
+
+// 3. Filter to only show windows with more than 5 high-latency entries
+| where high_latency_entries > 5
+
+// ALERT CONFIGURATION:
+// - Create a Scheduled Search with this query
+// - Run frequency: Every 10 minutes
+// - Time range: -10m (last 10 minutes)
+// - Alert condition: Number of results > 0
+// - Alert Type: Webhook
+// - Webhook URL: Your Lambda function URL or API Gateway endpoint
+// - Payload: Include all fields to pass to Lambda
