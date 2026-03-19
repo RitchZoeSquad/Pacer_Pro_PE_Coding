@@ -1,5 +1,9 @@
 # Platform Engineer Coding Test - Solution
 
+
+https://www.loom.com/share/385bf139bdf94294944994c80de5bad1
+
+
 ## Overview
 This repository contains a monitoring and automation solution for automatically detecting and resolving performance issues in a web application. The solution monitors the `/api/data` endpoint for high latency and automatically restarts the EC2 instance when issues are detected.
 
